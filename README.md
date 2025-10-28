@@ -1,63 +1,126 @@
-🌐 Integration Architectures Sales API
-This project implements a basic RESTful API for managing salesman data, focusing on demonstrating fundamental JavaScript concepts and the principles of a modular, layered architecture (Controller-Service-Repository) using Node.js and Express.js.
+Here’s your project description formatted as a **professional, clean Markdown file** (`README.md` style):
 
-🚀 Key Features Demonstrated (Assignment 2.1-a)
-This application covers the core concepts required for the first part of the assignment:
+---
 
-RESTful Endpoints: Basic GET routes for fetching salesman data and aggregated totals.
+```markdown
+# 🌐 Integration Architectures Sales API
 
-Layered Architecture (C-S-R): Separation of concerns into dedicated layers (Controller, Service, Repository).
+This project implements a basic **RESTful API** for managing salesman data.  
+Its primary goal is to demonstrate **fundamental JavaScript concepts** and the principles of a **modular, layered architecture** (Controller–Service–Repository) using **Node.js** and **Express.js**.
 
-Module System: Implementation of a dedicated bonusCalculator module for business logic.
+---
 
-Asynchronous Concepts: The foundation is laid for handling asynchronous tasks, which will be expanded with Promises and async/await in future steps.
+## 🚀 Key Features Demonstrated (Assignment 2.1-a)
 
-Cookie Handling: Routes for setting, reading, and deleting cookies using the cookie-parser middleware.
+- **Layered Architecture (C–S–R):**  
+  Clear separation of concerns across Controller, Service, and Repository layers for maintainability.
 
-🛠️ Technology Stack
-Component	    Role
-Runtime	        Node.js (v22.21.0 or newer)
-Framework	    Express.js
-Middleware	    cookie-parser
-Testing	        Postman (Recommended for testing endpoints)
-Version Control	Git / GitHub
+- **Module System:**  
+  Dedicated `bonusCalculator` module isolates business logic.
 
-📂 Project Structure
-The architecture strictly follows the Controller-Service-Repository (C-S-R) pattern to ensure high cohesion and low coupling.
+- **RESTful Endpoints:**  
+  Basic `GET` routes for fetching salesman data, calculating bonuses, and aggregating totals.
+
+- **Asynchronous Concepts:**  
+  Foundation laid for Promises and `async/await` (to be extended in later stages).
+
+- **Cookie Handling:**  
+  Routes demonstrate cookie operations using the `cookie-parser` middleware.
+
+---
+
+## 🛠️ Technology Stack
+
+| Component       | Role                 | Version / Notes               |
+|-----------------|----------------------|-------------------------------|
+| **Runtime**     | Node.js              | v22.21.0 or newer             |
+| **Framework**   | Express.js           | API core                      |
+| **Middleware**  | cookie-parser        | Cookie management             |
+| **Testing**     | Postman              | For testing endpoints          |
+| **Version Control** | Git / GitHub     | For versioning and tracking   |
+
+---
+
+## 📂 Project Structure
+
+The project strictly follows the **Controller–Service–Repository (C–S–R)** pattern for modularity and clarity.
+
+```
+
 real-sales-api/
 ├── node_modules/       # Project dependencies
-├── server.js           # The application entry point (starts the server)
-├── app.js              # Express application setup and middleware loading
+├── server.js           # Entry point (starts the HTTP listener)
+├── app.js              # Express setup, middleware, and routes
 └── src/
 ├── controllers/    # Handles HTTP requests/responses (e.g., salesmanController.js)
-├── services/       # Contains ALL business logic (e.g., bonus calculation, aggregation)
-├── repositories/   # Handles data access (currently hard-coded data)
-└── ...             # Other configuration/utility files
+├── services/       # Business logic (bonus calculation, aggregation, etc.)
+├── repositories/   # Data access (currently hard-coded)
+└── utils/          # Optional helper modules
 
-⚙️ Setup and Running the Application
-Prerequisites
-Node.js: Ensure Node.js (LTS version recommended) is installed on your system.
+````
 
-npm: The Node Package Manager (comes with Node.js).
+---
 
-Installation and Start
-1. Clone the Repository:
+## ⚙️ Setup and Running the Application
+
+### Prerequisites
+- **Node.js:** LTS version or newer installed.  
+- **npm:** Comes bundled with Node.js.
+
+### Installation and Startup
+
+1. **Clone the repository**
+   ```bash
    git clone https://github.com/Qudah03/Integration-Architectures-Sales-API.git
    cd Integration-Architectures-Sales-API
-2. Install Dependencies:
-   npm install
-3. Run the Server:
-node server.js
-The server will start on port 3000
-Server is running on http://localhost:3000
-Application structure is C-S-R based.
+````
 
-🔌 API Endpoints (GET)
-Use a browser or Postman to test the following endpoints:
-Method,Endpoint,Description
-GET,/salesmen,"Retrieves all salesman records, including the calculated bonus (10% of sales) applied by the Service Layer."
-GET,/salesmen/:id,"Retrieves a single salesman record by ID (e.g., /salesmen/2) with the calculated bonus."
-GET,/totals,Calculates and returns the grand totalSales and totalBonus for all records. (Logs output to the server console).
-GET,/set-cookie,Sets a session_id cookie in the client's browser.
-GET,/get-cookies,Reads and returns the cookies sent by the client.
-GET,/clear-cookie,Deletes the session_id cookie from the client's browser.
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Run the server**
+
+   ```bash
+   node server.js
+   ```
+
+The server will start on:
+
+```
+http://localhost:3000
+```
+
+Console output:
+
+```
+Server is running on port 3000
+Application structure is C-S-R based.
+```
+
+---
+
+## 🔌 API Endpoints (GET)
+
+Use a browser or **Postman** to test the following routes:
+
+| Method  | Endpoint        | Description                                                                       |
+| ------- | --------------- | --------------------------------------------------------------------------------- |
+| **GET** | `/salesmen`     | Returns all salesman records including calculated bonuses (10% of sales).         |
+| **GET** | `/salesmen/:id` | Returns a single salesman by ID (e.g. `/salesmen/2`) with calculated bonus.       |
+| **GET** | `/totals`       | Returns `totalSales` and `totalBonus` across all salesmen (also logs to console). |
+| **GET** | `/set-cookie`   | Sets a `session_id` cookie in the browser.                                        |
+| **GET** | `/get-cookies`  | Reads and returns cookies sent by the client.                                     |
+| **GET** | `/clear-cookie` | Deletes the `session_id` cookie from the browser.                                 |
+
+---
+
+## 🧩 Notes
+
+* Future updates will include asynchronous data fetching, Promises, and database integration.
+* The current version uses **in-memory data** for demonstration.
+* Designed for **Integration Architectures coursework (Assignment 2.1-a)**.
+
+---
