@@ -1,7 +1,3 @@
-Here’s your project description formatted as a **professional, clean Markdown file** (`README.md` style):
-
----
-
 ```markdown
 # 🌐 Integration Architectures Sales API
 
@@ -45,7 +41,7 @@ Its primary goal is to demonstrate **fundamental JavaScript concepts** and the p
 
 The project strictly follows the **Controller–Service–Repository (C–S–R)** pattern for modularity and clarity.
 
-```
+
 
 real-sales-api/
 ├── node_modules/       # Project dependencies
