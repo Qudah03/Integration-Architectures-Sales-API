@@ -98,18 +98,19 @@ Application structure is C-S-R based.
 
 ---
 
-## 🔌 API Endpoints (GET)
+## 🔌 ## 🔌 API Endpoints (Complete CRUD + Aggregation)
 
-Use a browser or **Postman** to test the following routes:
+This table defines the contract for the Salesman REST API, demonstrating the full CRUD functionality implemented in the **Controller → Service → Repository (C-S-R)** structure.
 
-| Method  | Endpoint        | Description                                                                       |
-| ------- | --------------- | --------------------------------------------------------------------------------- |
-| **GET** | `/salesmen`     | Returns all salesman records including calculated bonuses (10% of sales).         |
-| **GET** | `/salesmen/:id` | Returns a single salesman by ID (e.g. `/salesmen/2`) with calculated bonus.       |
-| **GET** | `/totals`       | Returns `totalSales` and `totalBonus` across all salesmen (also logs to console). |
-| **GET** | `/set-cookie`   | Sets a `session_id` cookie in the browser.                                        |
-| **GET** | `/get-cookies`  | Reads and returns cookies sent by the client.                                     |
-| **GET** | `/clear-cookie` | Deletes the `session_id` cookie from the browser.                                 |
+| Method  | Endpoint         | Description                                                          | Request Body (JSON)                           | Success Response                         | Error Codes                            |
+|---------|------------------|----------------------------------------------------------            |--------------------------------------------   |------------------------------------      |-----------------------------------     |
+| GET     | `/salesmen`      | Retrieves a list of all salesmen, including calculated bonus.        | None                                          | `200 OK` – Array of Salesman Objects     | `500 Internal Error`                   |
+| GET     | `/salesmen/{id}` | Retrieves a single salesman by their ID, including calculated bonus. | None                                          | `200 OK` – Single Salesman Object        | `404 Not Found`, `500 Internal Error`  |
+| POST    | `/salesmen`      | CREATE a new salesman resource.                                      | ```json {"name": "string", "sales": 0} ```    | `201 Created` – New Salesman Object + ID | `400 Bad Request` (Validation Error)   |
+| PUT     | `/salesmen/{id}` | UPDATE an existing salesman's details (e.g., update sales).          | ```json {"sales": 80000} ``` (Partial update) | `200 OK` – Updated Salesman Object       | `400 Bad Request`, `404 Not Found`     |
+| DELETE  | `/salesmen/{id}` | DELETE the specified salesman resource.                              | None                                          | `204 No Content`                         | `404 Not Found`                        |
+| GET     | `/totals`        | Calculates and returns aggregated total sales and total bonus.       | None                                          | `200 OK` – Totals Object                 | `500 Internal Error`                   |
+
 
 ---
 
@@ -117,6 +118,6 @@ Use a browser or **Postman** to test the following routes:
 
 * Future updates will include asynchronous data fetching, Promises, and database integration.
 * The current version uses **in-memory data** for demonstration.
-* Designed for **Integration Architectures coursework (Assignment 2.1-a)**.
+* Designed for **Integration Architectures coursework (Assignment 2.1)**.
 
 ---
