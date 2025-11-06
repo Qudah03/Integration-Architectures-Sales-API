@@ -59,9 +59,41 @@ function getSalesTotals() {
     return calculateGrandTotals(salesmenWithBonus);
 }
 
-// NOTE: calculateBonus is exported primarily for use in the single-ID controller.
+// --- New C: Create Service Logic ---
+function createSalesman(data) {
+    // Business Validation: Name is mandatory
+    if (!data.name || typeof data.name !== 'string' || data.name.trim() === '') {
+        throw new Error("Salesman name is required.");
+    }
+    // Business Validation: Sales must be a non-negative number if provided
+    if (data.sales !== undefined && (typeof data.sales !== 'number' || data.sales < 0)) {
+        throw new Error("Sales must be a non-negative number.");
+    }
+    return salesmanRepository.addSalesman(data);
+}
+
+// --- New U: Update Service Logic ---
+function updateSalesman(id, data) {
+    // Business Validation: Prevent updating sales to a negative value
+    if (data.sales !== undefined && (typeof data.sales !== 'number' || data.sales < 0)) {
+        throw new Error("Cannot update sales to a negative amount.");
+    }
+    // Note: The repository handles the 'not found' check
+    return salesmanRepository.updateSalesman(id, data);
+}
+
+// --- New D: Delete Service Logic ---
+function deleteSalesman(id) {
+    return salesmanRepository.deleteSalesman(id);
+}
+
+
 module.exports = {
     getAllSalesmenWithBonus,
     getSalesTotals,
-    calculateBonus
+    calculateBonus,
+    // Export new CRUD functions
+    createSalesman,
+    updateSalesman,
+    deleteSalesman
 };

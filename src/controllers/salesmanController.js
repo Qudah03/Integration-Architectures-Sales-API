@@ -62,4 +62,66 @@ exports.getTotals = (req, res) => {
     }
 };
 
+// --- New POST/PUT/DELETE Handlers (Assignment 2.1 b) ---
+
+/**
+ * POST /salesmen: Creates a new salesman.
+ */
+exports.createSalesman = (req, res) => {
+    try {
+        // C: Call service to create new salesman. req.body is required.
+        const newSalesman = salesmanService.createSalesman(req.body);
+        // Use 201 Created for resource creation
+        res.status(201).json(newSalesman);
+    } catch (error) {
+        // Use 400 Bad Request for client-side input errors (e.g., failed validation)
+        console.error("Error creating salesman:", error.message);
+        res.status(400).json({ message: error.message });
+    }
+};
+
+/**
+ * PUT /salesmen/:id: Updates an existing salesman.
+ */
+exports.updateSalesman = (req, res) => {
+    try {
+        const id = req.params.id;
+        // U: Call service to update the salesman.
+        const updatedSalesman = salesmanService.updateSalesman(id, req.body);
+
+        if (updatedSalesman) {
+            // Use 200 OK for successful update
+            res.status(200).json(updatedSalesman);
+        } else {
+            // Use 404 Not Found if the resource ID is invalid
+            res.status(404).json({ message: `Salesman ID ${id} not found.` });
+        }
+    } catch (error) {
+        // Use 400 Bad Request for client-side errors (e.g., negative sales)
+        console.error(`Error updating salesman ID ${req.params.id}:`, error.message);
+        res.status(400).json({ message: error.message });
+    }
+};
+
+/**
+ * DELETE /salesmen/:id: Deletes a salesman.
+ */
+exports.deleteSalesman = (req, res) => {
+    try {
+        const id = req.params.id;
+        // D: Call service to delete the salesman.
+        const wasDeleted = salesmanService.deleteSalesman(id);
+
+        if (wasDeleted) {
+            // Use 204 No Content for successful deletion (no Body returned)
+            res.status(204).send();
+        } else {
+            // Use 404 Not Found if the resource ID does not exist
+            res.status(404).json({message: `Salesman ID ${id} not found for deletion.`});
+        }
+    } catch (error) {
+        console.error(`Error deleting salesman ID ${req.params.id}:`, error.message);
+        res.status(500).json({message: "Internal server error during deletion."});
+    }
+}
 // NOTE: Assignment 1b requires adding create, update, and delete handlers here.
