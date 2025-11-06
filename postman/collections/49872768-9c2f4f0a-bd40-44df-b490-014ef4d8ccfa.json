@@ -1,0 +1,397 @@
+{
+	"info": {
+		"_postman_id": "49872768-9c2f4f0a-bd40-44df-b490-014ef4d8ccfa",
+		"name": "Salesman CRUD Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. POST - Create User 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b9627afd-2ecc-4997-a6fa-cbd8074df1ea",
+						"exec": [
+							"pm.test(\"1. POST: User 1 created (Status 201)\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"id": "49872768-87ddd00a-3606-4ad2-8c23-f7f33e1b5446",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"User One - Base\",\r\n  \"sales\": 10000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/salesmen",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"salesmen"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. POST - Capture User 2 ID (To Delete)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "09342968-e94d-4a79-ab21-adabaf27400b",
+						"exec": [
+							"pm.test(\"2. POST: User 2 created (Status 201)\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"// CRITICAL: Capture ID and save to environment for later DELETE\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"user_two_id\", jsonData.id);\r",
+							"// console.log(\"Captured ID for User 2 (to be deleted): \" + jsonData.id); // Console log is optional"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"id": "49872768-5f2b756d-47cd-4b1a-a0ac-35cc27d18834",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"User two - Base\",\r\n  \"sales\": 20000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/salesmen?Content-Type=application/json",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"salesmen"
+					],
+					"query": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. POST - Capture User 3 ID (To Update)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7771762b-6641-4192-86d0-38dd6ea78848",
+						"exec": [
+							"pm.test(\"3. POST: User 3 created (Status 201)\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"// CRITICAL: Capture ID and save to environment for later PUT\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"user_three_id\", jsonData.id);\r",
+							"console.log(\"Captured ID for User 3 (to be updated): \" + jsonData.id);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"id": "49872768-ca75085c-09fa-4171-a38f-5b51a25e95ca",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"User three - Base\",\r\n  \"sales\": 30000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/salesmen?Content-Type=application/json",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"salesmen"
+					],
+					"query": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4. DELETE - User 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "33061784-fced-4166-ba5b-b5adda6df3b1",
+						"exec": [
+							"pm.test(\"4. DELETE: User 2 deleted (Status 204)\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"id": "49872768-4bf3aa2d-a483-4ca5-ac6a-6eebec074e2a",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/salesmen/{{user_two_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"salesmen",
+						"{{user_two_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5. PUT - User 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0c1f1dd8-5e49-4070-8f0b-07944eb1a82e",
+						"exec": [
+							"pm.test(\"5. PUT: User 3 sales updated (Status 200)\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    // Verify the update took place in the response body\r",
+							"    pm.expect(pm.response.json().sales).to.equal(80000);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"id": "49872768-5fb84516-bf1a-4331-9970-63ea9d87b5f5",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sales\": 80000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/salesmen/{{user_three_id}}?Content-Type=application/json",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"salesmen",
+						"{{user_three_id}}"
+					],
+					"query": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. GET - Verify Final List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ca69d965-15ec-4191-8a24-12a1f1abe599",
+						"exec": [
+							"pm.test(\"6. GET: Final list integrity check (Status 200)\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var salesmen = pm.response.json();\r",
+							"\r",
+							"    // 1. Check if the original three hardcoded users exist (IDs 1, 2, 3)\r",
+							"    // 2. Check if User 2 (to be deleted) is gone.\r",
+							"\r",
+							"    const user2Id = pm.environment.get(\"user_two_id\");\r",
+							"    const user3Id = pm.environment.get(\"user_three_id\");\r",
+							"\r",
+							"    // Count the number of users created in this script (IDs 4, 5, 6 - depending on start state)\r",
+							"    // We expect the array to contain (Initial 3) + (Created 3) - (Deleted 1) = 5 total users.\r",
+							"    pm.expect(salesmen.length).to.equal(5); \r",
+							"\r",
+							"    // Check that the deleted user is NOT in the list\r",
+							"    pm.expect(salesmen.some(s => s.id == user2Id)).to.be.false;\r",
+							"\r",
+							"    // Check that User 3's sales were correctly updated\r",
+							"    const user3 = salesmen.find(s => s.id == user3Id);\r",
+							"    pm.expect(user3.sales).to.equal(80000);\r",
+							"    pm.expect(user3.name).to.equal(\"User Three - Updated\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"id": "49872768-376c6cbd-c2a0-4077-8d68-48b4129ed826",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/salesmen",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"salesmen"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "f9ae1329-39a1-446e-8d6a-7d64a0bb4a17",
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "281b81ea-5121-4f29-9cb9-42ecf3c6e73f",
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
