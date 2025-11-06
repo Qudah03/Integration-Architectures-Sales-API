@@ -1,48 +1,67 @@
-// The Business Logic Tier (Service)
-// The service layer contains the complex logic, separate from HTTP handling or data storage. Move your bonus calculation and aggregation logic here.
+// Service Layer: Contains all business logic (calculations, transformations, validation).
 
-// Import the data access layer
 const salesmanRepository = require('../repositories/salesmanRepository');
 
-// --- Helper Functions (Business Logic) ---
+// --- Private Helper Functions (Internal Business Logic) ---
 
+/**
+ * Calculates the standard 10% bonus for a sales amount.
+ */
 function calculateBonus(salesAmount) {
+    if (typeof salesAmount !== 'number' || salesAmount < 0) {
+        throw new Error("Invalid sales amount for bonus calculation.");
+    }
     const bonusRate = 0.10;
     return salesAmount * bonusRate;
 }
 
+/**
+ * Aggregates total sales and total bonus from an enriched array of salesmen.
+ */
 function calculateGrandTotals(salesmenArray) {
     return salesmenArray.reduce((acc, s) => {
-        acc.totalSales += s.sales;
-        acc.totalBonus += s.bonus;
+        const sales = typeof s.sales === 'number' ? s.sales : 0;
+        const bonus = typeof s.bonus === 'number' ? s.bonus : 0;
+
+        acc.totalSales += sales;
+        acc.totalBonus += bonus;
         return acc;
+
     }, { totalSales: 0, totalBonus: 0 });
 }
 
-// --- Main Service Functions ---
+// --- Public Service Functions (Used by Controllers) ---
 
-// Get all salesmen and enrich them with bonus data
+/**
+ * Fetches all salesmen and enriches the data with the calculated bonus.
+ */
 function getAllSalesmenWithBonus() {
+    // 1. Get raw data from the repository (the data source)
     const allSalesmen = salesmanRepository.findAll();
 
-    // Apply business logic (bonus calculation)
-    const salesmenWithBonus = allSalesmen.map(s => {
-        const bonus = calculateBonus(s.sales);
-        return { ...s, bonus };
+    // 2. Apply business logic (calculate and map the bonus)
+    return allSalesmen.map(s => {
+        try {
+            const bonus = calculateBonus(s.sales);
+            return {...s, bonus};
+        } catch (e) {
+            return {...s, bonus: 0, error: "Bonus calculation failed"};
+        }
     });
-
-    return salesmenWithBonus;
 }
 
-// Get grand totals
+/**
+ * Calculates and returns the grand totals for all salesmen.
+ */
 function getSalesTotals() {
-    // Re-use the data enrichment function
+    // Re-uses the main data function
     const salesmenWithBonus = getAllSalesmenWithBonus();
     return calculateGrandTotals(salesmenWithBonus);
 }
 
+// NOTE: calculateBonus is exported primarily for use in the single-ID controller.
 module.exports = {
     getAllSalesmenWithBonus,
-    getSalesTotals
-    // Add other CRUD/logic functions here (create, update, delete)
+    getSalesTotals,
+    calculateBonus
 };

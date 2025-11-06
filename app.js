@@ -17,11 +17,6 @@ app.get('/salesmen/:id', salesmanController.getSingleSalesman);
 app.get('/totals', salesmanController.getTotals);
 
 // Cookie Endpoints (Keep these simple for now)
-app.get('/set-cookie', (req, res) => { /* ... cookie logic here ... */ });
-app.get('/get-cookies', (req, res) => { /* ... cookie logic here ... */ });
-app.get('/clear-cookie', (req, res) => { /* ... cookie logic here ... */ });
-
-// Cookie Endpoints (Keep these simple for now)
 app.get('/set-cookie', (req, res) => {
     // You MUST provide a function body here
     res.cookie('session_id', 'user12345', { maxAge: 900000, httpOnly: true });
